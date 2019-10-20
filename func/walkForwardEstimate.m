@@ -9,5 +9,5 @@ function e = walkForwardEstimate(model, input)
         window = input(i:j) * coefficient;
         estimates = estimates + window;
     end
-    e = estimates;
+    e = estimates * -1;
 end
