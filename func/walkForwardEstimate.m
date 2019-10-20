@@ -1,5 +1,5 @@
 function e = walkForwardEstimate(model, input)
-    coefficients = model.Report.Parameters.ParVector;
+    coefficients = flip(model.Report.Parameters.ParVector);
     order = numel(coefficients);
     len = numel(input) - order;
     estimates = zeros(len, 1);
