@@ -1,4 +1,15 @@
 
+
+%% create subject list
+home_path = 'D:\UH\data_analysis\school_intervention_study_data\EEG_data\double_check_0815\1_chan_corr_maha_pre2\'
+file_struct = dir([home_path '*.set'])
+len = length(file_struct );
+ for i = 1:len
+    subject_list{i}=file_struct(i).name;
+ end
+
+
+%% load data
 s = 1;
 subject = subject_list{s};
 
@@ -27,5 +38,6 @@ plot(estimate);
 for i = 1:size(culled,1)
 		sample = culled(i,2);
 		line([sample sample],get(hax,'YLim'))
+        alpha(0.3)
 end
 hold off
