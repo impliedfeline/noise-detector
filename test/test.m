@@ -24,7 +24,7 @@ order = numel(model.Report.Parameters.ParVector);
 % the estimate starts from the order + 1th element of the original array, since
 % the first order elements are only used to predict
 window = data(order + 1:numel(data));
-errors = squaredErrorsOfWalkForward(data, estimate);
+errors = errorsOfWalkForward(data, estimate);
 culled = cullErrors(errors, 100);
 fig=figure; 
 hax=axes; 
