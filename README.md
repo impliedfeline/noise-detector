@@ -51,8 +51,8 @@ for i = 1:size(culled,1)
 end
 hold off
 ```
-Here is the plot produced. The red lines indicate the points where the
-prediction error was above the threshold (0.175):
+Here is the plot produced. The blue line is the actual data while the orange line is the estimate.
+The red lines indicate the points where the prediction error was above the threshold (0.175):
 
 ![plot of the test data with the errors marked](example.png)
 
