@@ -52,18 +52,10 @@ len = length(file_struct );
 for s = 1;
     subject = subject_list{s};
     EEG     = pop_loadset('filename',subject, 'filepath',home_path); 
-  
-
-    plot = plotnoise0(EEG, ...
-        'nchan',2,...
-        'dur',1,...
-        'srate', 250,...
-        'n_var', 2.5,...
-        'plotmodel',false )
     
     nchan   = 2;   % the number of estimated channels
     dur     = 1;   % duration per segment
-    srate   = 250; % sample rate
+    srate   = 500; % sample rate
     n_var   = 2.5;   % number of variance for threshold
     plotmodel = 0;   % logical; if plot fit model or not
     
