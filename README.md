@@ -22,8 +22,8 @@ sampleRate = 2048;
 sampleTime = 1 / sampleRate;
 stopTime = 0.25;
 t = (0:sampleTime:stopTime-sampleTime)';
-F = 60;
-data = sin(2*pi*F*t);
+measurementError = 0.1 .* randn(sampleRate * stopTime, 1) + 1;
+data = sin(4*pi*t) .* sin(16*pi*t) .* measurementError;
 ```
 Next, train the autoregressive model with the data
 ```m
@@ -38,7 +38,8 @@ order = modelOrder(model);
 % the first order elements are only used to predict
 window = data(order + 1:numel(data));
 errors = errorsOfWalkForward(data, estimate);
-culled = cullErrors(errors, 0.175);
+threshold = 0.175;
+culled = cullErrors(errors, threshold);
 fig=figure; 
 hax=axes; 
 hold on
@@ -50,6 +51,10 @@ for i = 1:size(culled,1)
 end
 hold off
 ```
+Here is the plot produced. The red lines indicate the points where the
+prediction error was above the threshold (0.175):
+
+![plot of the test data with the errors marked](example.png)
 
 ## Example with EEG data
 (The following code snippets may be found in ```test/test0.m```.

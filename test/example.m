@@ -3,8 +3,8 @@ sampleRate = 2048;
 sampleTime = 1 / sampleRate;
 stopTime = 0.25;
 t = (0:sampleTime:stopTime-sampleTime)';
-F = 60;
-data = sin(2*pi*F*t);
+measurementError = 0.1 .* randn(sampleRate * stopTime, 1) + 1;
+data = sin(4*pi*t) .* sin(16*pi*t) .* measurementError;
 
 % train the model
 model = fitAr(data, sampleTime, 1);
@@ -14,7 +14,8 @@ order = modelOrder(model);
 % the first order elements are only used to predict
 window = data(order + 1:numel(data));
 errors = errorsOfWalkForward(data, estimate);
-culled = cullErrors(errors, 0.175);
+threshold = 0.175;
+culled = cullErrors(errors, threshold);
 fig=figure; 
 hax=axes; 
 hold on
