@@ -11,9 +11,8 @@ subject = subject_list{1};
 
 EEG = pop_loadset('filename',subject, 'filepath',home_path);
 
-data0  = double(EEG.data(14,:)).';  
-data1 = double(EEG.data(:)).';
-model = fitAr(data1, 1/500, 1);
+cleanData = double(EEG.data(:)).';
+model = fitAr(cleanData, 1/500, 1);
 %% plot estimation for clean data
 
 data = double(EEG.data(1,:)).';
