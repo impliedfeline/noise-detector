@@ -14,7 +14,7 @@ takes as its parameters an error matrix and a threshold. All errors below the th
 will be filtered out of the error matrix.
 
 ## Example
-(The following code snippets may be found in ```example.m```.)
+(The following code snippets may be found in ```test/example.m```.)
 First, prepare some training data:
 ```m
 % training data
