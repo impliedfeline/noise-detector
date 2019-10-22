@@ -1,6 +1,6 @@
 # Noise detector for EEG data
 ## Introduction
-### functions for model training
+### Functions for model training
 To use, first train a model with ```fitAr```, which takes as its parameters the
 training data, the sample time (inverse of sample rate) and the maximum order
 for the autoregressive model to be trained. The function trains and tests
@@ -14,7 +14,7 @@ original data. This error matrix may be culled with the ```cullErrors``` functio
 takes as its parameters an error matrix and a threshold. All errors below the threshold
 will be filtered out of the error matrix. 
 
-### functions for visualization
+### Functions for visualization
 
 Function ```markbadsegment``` is a function that aims to get bad segments index matrix of the whole EEG data, 
 and thereby export corresponding parameters for marking bad segments in plot in the function
