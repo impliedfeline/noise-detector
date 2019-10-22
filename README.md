@@ -1,5 +1,6 @@
 # Noise detector for EEG data
 ## Introduction
+### functions for model training
 To use, first train a model with ```fitAr```, which takes as its parameters the
 training data, the sample time (inverse of sample rate) and the maximum order
 for the autoregressive model to be trained. The function trains and tests
@@ -11,7 +12,25 @@ as its parameters the data that was walked over and the estimate and produces a 
 containing the error of each estimate along with the sample index of each error in the
 original data. This error matrix may be culled with the ```cullErrors``` function, which
 takes as its parameters an error matrix and a threshold. All errors below the threshold
-will be filtered out of the error matrix.
+will be filtered out of the error matrix. 
+
+### functions for visualization
+
+Function ```markbadsegment``` is a function that aims to get bad segments index matrix of the whole EEG data, 
+and thereby export corresponding parameters for marking bad segments in plot in the function
+```plotnoise0```.
+
+```plotnoise0``` is a function that integrated the model-training functions and plot functions.
+It first breaks a whole EEG data into single channels and 1s segments. Then it employ model-training
+functions to get error matrix, with defined threshold, and calculate the the number of errors in 
+each segment to identify if the segment is good or not. Also, for all the 128 channels in one time 
+segment, if the 30% of channels are defined as "bad", then the whole segment of all channel will 
+be marked as bad. Last, after defining bad segments matrix and parameters, the whole EEG data will 
+be plot with single bad segments marked as red lines, and whole bad segments marked as pink bars.
+
+Users can simply call ```plotnoise0``` to plot the EEG data of one subject, by defining 'nchan'
+(number of channels), 'dur'(duration of the segment), 'srate'(sample rate of the data) and 
+'n_var'(threshold of variance for errors).
 
 ## Example
 (The following code snippets may be found in ```test/example.m```.)
@@ -75,8 +94,8 @@ EEG = pop_loadset('filename',subject, 'filepath',home_path);
 
 cleanData = double(EEG.data(:)).';
 model = fitAr(cleanData, 1/500, 1);
-%% plot estimation for clean data
 
+%% plot estimation for clean data
 data = double(EEG.data(1,:)).';
 estimate = walkForwardEstimate(model, data);
 order = modelOrder(model);
@@ -99,7 +118,7 @@ end
 hold off
 ```
 
-Next we plot the estimates along with the data with EEGLAB's plotting facilities:
+Next we plot the estimates along with the data with adapted EEGLAB's plotting facilities:
 ```m
  home_path = 'D:\UH\data_analysis\school_intervention_study_data\EEG_data\data_science_course\set\filt\';
 file_struct = dir([home_path '*.set'])
@@ -113,18 +132,10 @@ len = length(file_struct );
 for s = 1;
     subject = subject_list{s};
     EEG     = pop_loadset('filename',subject, 'filepath',home_path); 
-  
-
-    plot = plotnoise0(EEG, ...
-        'nchan',2,...
-        'dur',1,...
-        'srate', 250,...
-        'n_var', 2.5,...
-        'plotmodel',false )
     
     nchan   = 2;   % the number of estimated channels
     dur     = 1;   % duration per segment
-    srate   = 250; % sample rate
+    srate   = 500; % sample rate
     n_var   = 2.5;   % number of variance for threshold
     plotmodel = 0;   % logical; if plot fit model or not
     
